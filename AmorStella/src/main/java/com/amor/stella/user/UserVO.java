@@ -14,14 +14,18 @@ public class UserVO {
 	private String cert;
 	private String regdate;
 	private String role;
+	private String aff_sch;
+	
 	
 	public UserVO(){}
 
 	@Override
 	public String toString() {
 		return "UserVO [uidx=" + uidx + ", userid=" + userid + ", pw=" + pw + ", grade=" + grade + ", upoint=" + upoint
-				+ ", cert=" + cert + ", regdate=" + regdate + ", role=" + role + "]";
+				+ ", cert=" + cert + ", regdate=" + regdate + ", role=" + role + ", aff_sch=" + aff_sch + "]";
 	}
+
+
 
 
 }

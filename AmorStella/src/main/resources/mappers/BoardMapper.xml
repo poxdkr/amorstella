@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.amor.stella.mappers.BoardMapper">
+<mapper namespace="com.amor.stella.mapper.BoardMapper">
 
 	<insert id="insertBoard" parameterType="com.amor.stella.board.BoardVO">
-		INSERT INTO board(
+		INSERT INTO amorDB.board(
 			btitle,
 			bpw,
 			userid,
@@ -12,7 +12,11 @@
 			file1,
 			file2,
 			content,
-			regdate
+			regdate,
+			username, 
+			email,
+			phone,
+			sch_name
 		) VALUES(
 			#{btitle },
 			#{bpw },
@@ -22,9 +26,16 @@
 			#{file1 },
 			#{file2 },
 			#{content },
-			DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s')
+			DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s'),
+			#{username }, 
+			#{email },
+			#{phone },
+			#{sch_name }
 		)
 		
 	</insert>
-
+	
+	<select id="search_est" parameterType="com.amor.stella.board.BoardVO" resultType = "com.amor.stella.board.BoardVO">
+		select * from amorDB.board where username = #{username} and phone=#{phone}
+	</select>
 </mapper>

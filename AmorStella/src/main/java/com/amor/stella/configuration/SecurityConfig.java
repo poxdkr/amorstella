@@ -22,7 +22,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests() // 요청에 의한 보안검사 시작
-                .antMatchers("/","/login","/failure","/registUser").permitAll()
+                .antMatchers("/","/login","/failure","/registUser","/registPage","/get_estimate","/assets/**","/static","/send_est","/search_est").permitAll()
                 .anyRequest().authenticated() //어떤 요청에도 보안검사를 한다.
         .and()
                 .formLogin()//보안 검증은 formLogin방식으로 하겠다.

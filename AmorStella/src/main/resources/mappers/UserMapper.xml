@@ -4,7 +4,6 @@
 
 	<select id="checkUser" parameterType="com.amor.stella.user.UserVO" resultType="com.amor.stella.user.UserVO">
 		select * from amorDB.user where userid = #{userid }
-		
 	</select>
 	
 	<insert id="registUser" parameterType="com.amor.stella.user.UserVO">
@@ -15,7 +14,8 @@
 			upoint,
 			cert,
 			regdate,
-			role
+			role,
+			aff_sch
 		) values(
 			#{userid },
 			#{pw },
@@ -23,7 +23,8 @@
 			#{upoint },
 			#{cert },
 			DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s'),
-			#{role }
+			#{role },
+			#{aff_sch }
 		) 
 	</insert>
 </mapper>
