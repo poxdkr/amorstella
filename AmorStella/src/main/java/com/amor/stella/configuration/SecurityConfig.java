@@ -23,12 +23,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http
                 .authorizeRequests() // 요청에 의한 보안검사 시작
                 .antMatchers("/","/login","/failure","/registUser","/registPage","/get_estimate","/assets/**","/static","/send_est","/search_est").permitAll()
+                .antMatchers("/admin").hasRole("admin")
                 .anyRequest().authenticated() //어떤 요청에도 보안검사를 한다.
         .and()
                 .formLogin()//보안 검증은 formLogin방식으로 하겠다.
         		.loginPage("/login")
         		.loginProcessingUrl("/loginProc")
-				.usernameParameter("userId")
+				.usernameParameter("userid")
         		.passwordParameter("pw")
         		.defaultSuccessUrl("/loginSuccess", true)
         		.failureUrl("/loginFailure")

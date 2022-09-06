@@ -7,12 +7,14 @@ import java.net.http.HttpResponse;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.security.Principal;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -95,16 +97,20 @@ public class pageController {
 	}
 	
 	@GetMapping("/loginSuccess")
-	public String loginOk() {
+	public String loginOk(HttpSession session, Principal principal){
 		System.out.println("로그인 성공");
+		String userid = principal.getName();
+		UserVO user =  userMapper.checkUser(userid);
+		session.setAttribute("userid", user.getUserid());
+		session.setAttribute("role", user.getRole());
 		return "user/loginSuccess";
 	}
 	
 	
 	@GetMapping("/loginFailure")
-	public String loginFailed() {
+	public String loginFailed(){
 		System.out.println("로그인 실패");
-		return "user/login";
+		return "user/login.jsp?error=fail";
 	}
 	
 	
@@ -161,6 +167,11 @@ public class pageController {
 		  }
 			 
 		  return "index";
-		  
+	  }
+	  
+	  @RequestMapping("/admin")
+	  public String go_admin_page(HttpServletRequest req){
+		  String login = req.getParameter("login");
+		  return "admin/index.jsp?login=ok";
 	  }
 }

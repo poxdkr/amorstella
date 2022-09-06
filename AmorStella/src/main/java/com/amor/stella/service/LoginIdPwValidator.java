@@ -1,5 +1,12 @@
 package com.amor.stella.service;
 
+import java.util.Enumeration;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpSessionContext;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.User;
@@ -15,7 +22,7 @@ import com.amor.stella.user.UserVO;
 
 @Service
 public class LoginIdPwValidator implements UserDetailsService{
-	 
+	
 	@Bean
 	    public PasswordEncoder passwordEncoder() {
 	        return new BCryptPasswordEncoder();
@@ -23,20 +30,21 @@ public class LoginIdPwValidator implements UserDetailsService{
 	    
     @Autowired
     private UserMapper mapper;
-
+    
 	@Override
-	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String userid) throws UsernameNotFoundException {
 		System.out.println("loadUserByUsername 실행");
-		UserVO uvo = mapper.checkUser(userId);
+		
+		UserVO uvo = mapper.checkUser(userid);
 		
 		if(uvo == null) {
-			throw new UsernameNotFoundException(userId);
+			throw new UsernameNotFoundException(userid);
 		}
 		
 		String pw = uvo.getPw(); //"d404559f602eab6fd602ac7680dacbfaadd13630335e951f097af3900e9de176b6db28512f2e000b9d04fba5133e8b1c6e8df59db3a8ab9d60be4b97cc9e81db"
         String roles = uvo.getRole(); //"USER"
-		
-		return User.builder().username(userId).password(pw).roles(roles).build();
+        
+		return User.builder().username(userid).password(pw).roles(roles).build();
 	}
 
 }
