@@ -78,4 +78,16 @@ public class ajaxController {
 		userMapper.delete_user(Integer.parseInt(req.getParameter("uidx")));
 	}
 	
+	
+	@RequestMapping("/count_brd_total")
+	@ResponseBody
+	public int count_brd_total() {
+		return boardMapper.count_brd_total();
+	}
+	
+	@RequestMapping("/count_brd_day")
+	@ResponseBody
+	public int count_brd_day() {
+		return boardMapper.count_brd_day();
+	}
 }

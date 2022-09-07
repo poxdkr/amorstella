@@ -269,6 +269,24 @@ function open_user_dash(type,page){
 				console.log(data);
 			}
 		});
+		$.ajax({
+			url : "/count_brd_total",
+			contentType : "application/text",
+			success : function(data){
+				$("#total_board").html(data);
+			},error : function(data){
+				console.log(data);
+			}
+		});
+		$.ajax({
+			url : "/count_brd_day",
+			contentType : "application/text",
+			success : function(data){
+				$("#today_board").html(data);
+			},error : function(data){
+				console.log(data);
+			}
+		});
 		
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////		
 		
@@ -314,8 +332,8 @@ function open_user_dash(type,page){
               </div>
               <div class="col-8 card small border-light">
               		<div class="small" id="est_dash">
-              			<p class="btn btn-outline-success btn-block mb-2">총 문의 : <span id="total_board">00</span> 건</p>
-              			<p class="btn btn-outline-primary btn-block mb-2">오늘 문의 : <span id="today_board">00</span> 건</p>
+              			<p class="btn btn-outline-success btn-block mb-2" onclick="open_brd_dash('total','1')">총 문의 : <span id="total_board">00</span> 건</p>
+              			<p class="btn btn-outline-primary btn-block mb-2" onclick="open_brd_dash('day','1')">오늘 문의 : <span id="today_board">00</span> 건</p>
               		</div>
               </div>
             </div>
