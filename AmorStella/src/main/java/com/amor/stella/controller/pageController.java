@@ -21,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.amor.stella.AES256Cipher;
 import com.amor.stella.board.BoardVO;
@@ -113,35 +114,35 @@ public class pageController {
 		return "user/login.jsp?error=fail";
 	}
 	
-	
-	  @GetMapping("/aesCheck") public String aesChecker(HttpServletRequest request)
-	  throws InvalidKeyException, UnsupportedEncodingException,
-	  NoSuchAlgorithmException, NoSuchPaddingException,
-	  InvalidAlgorithmParameterException, IllegalBlockSizeException,
-	  BadPaddingException{
-	  
-	  AES256Cipher aes256 = new AES256Cipher("lotte-wfms-cipher@20160622-qwer1");
-	  //32bit 제대로된 키 필요함
-	  
-	  String info = request.getParameter("info"); System.out.println("info : " +
-	  info);
-	  
-	  String aesInfo = aes256.encrypt(info);
-	  
-	  System.out.println("aesInfo : " + aesInfo);
-	  
-	  String decryptInfo = aes256.decrypt(aesInfo);
-	  
-	  System.out.println("decryptInfo : " + decryptInfo);
-	  
-		
-	  String decryptInfo2 =
-	  aes256.decrypt("30STG2WouwE%2BJG7c4KL5YaCMn2xDOi6zqJu7qmGhZKs%3D");
-	  System.out.println("decryptInfo2 : " + decryptInfo2);
-		 
-	  
-	  return "index"; 
-	  }
+	/*
+	 * @GetMapping("/aesCheck") public String aesChecker(HttpServletRequest request)
+	 * throws InvalidKeyException, UnsupportedEncodingException,
+	 * NoSuchAlgorithmException, NoSuchPaddingException,
+	 * InvalidAlgorithmParameterException, IllegalBlockSizeException,
+	 * BadPaddingException{
+	 * 
+	 * AES256Cipher aes256 = new AES256Cipher("lotte-wfms-cipher@20160622-qwer1");
+	 * //32bit 제대로된 키 필요함
+	 * 
+	 * String info = request.getParameter("info"); System.out.println("info : " +
+	 * info);
+	 * 
+	 * String aesInfo = aes256.encrypt(info);
+	 * 
+	 * System.out.println("aesInfo : " + aesInfo);
+	 * 
+	 * String decryptInfo = aes256.decrypt(aesInfo);
+	 * 
+	 * System.out.println("decryptInfo : " + decryptInfo);
+	 * 
+	 * 
+	 * String decryptInfo2 =
+	 * aes256.decrypt("30STG2WouwE%2BJG7c4KL5YaCMn2xDOi6zqJu7qmGhZKs%3D");
+	 * System.out.println("decryptInfo2 : " + decryptInfo2);
+	 * 
+	 * 
+	 * return "index"; }
+	 */
 	 
 	  @RequestMapping("/get_estimate")
 	  public String get_estimate() {
@@ -172,6 +173,15 @@ public class pageController {
 	  @RequestMapping("/admin")
 	  public String go_admin_page(HttpServletRequest req){
 		  String login = req.getParameter("login");
-		  return "admin/index.jsp?login=ok";
+		  if(login == "admin") {
+			  return "admin/index.jsp?login=admin";
+		  }else {
+			  return "admin/index";
+		  }
+	  }
+	  
+	  @RequestMapping("/error/403")
+	  public String accessDeniedpage() {
+		  return "/error/403";
 	  }
 }

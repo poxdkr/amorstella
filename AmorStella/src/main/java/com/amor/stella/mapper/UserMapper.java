@@ -1,6 +1,7 @@
 package com.amor.stella.mapper;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -17,13 +18,14 @@ public interface UserMapper {
 	public int count_user_total();
 	
 	// 전체 유저의 명세 리스트
-	public ArrayList<UserVO> get_user_total();
+	public ArrayList<UserVO> get_user_total(HashMap<String, String> userMap);
 
 	//이달의 가입자수 카운트
 	public int count_user_month();
 		
 	//이달의 가입자 명세 리스트
-	public ArrayList<UserVO> get_user_month();
+	public ArrayList<UserVO> get_user_month(HashMap<String, String> userMap);
 
-	
+	//회원삭제
+	public void delete_user(int uidx);
 }

@@ -46,12 +46,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         //x-frame
         http.headers()
 			.frameOptions().sameOrigin();
+        
+        //exception handling - > denied Page config
+        http.exceptionHandling().accessDeniedPage("/error/403");
         			
     }
 	 @Override
 	    public void configure(WebSecurity web) throws Exception {
 	        web.ignoring().antMatchers("/resource/**"); //정적리소스는 모두 접근 허용
 	    }
+	 
 	 @Override
 	    public void configure(AuthenticationManagerBuilder auth) throws Exception {
 	        auth.userDetailsService(loginIdPwValidator); //인증 시작

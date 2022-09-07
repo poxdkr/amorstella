@@ -14,19 +14,19 @@ $(function(){
 		toastr.error("ID 혹은 PW를 확인해주세요.");
 		$("#userid").focus();
 	}
+	$("#navbar").remove();
 });
 </script>
 <div class="container pt-5 pb-5">  </div>
 
 
-<div class="container ms-0 me-0 row text-center">
+<div class="container ms-0 me-0 row text-center text-muted">
 		
 		<div class="col-6 mx-auto"  data-aos='flip-left' data-aos-delay='500'>
 			<img src="assets/img/lock.png" class="img col-12">
 		</div>
 	
 		<form action="/loginProc" method="post"  class="row p-2 col-md-6 mx-auto mt-5"  data-aos='zoom-in'>
-			
 			<div class="form-group mt-2 mb-2">
 				<label for='userid'>ID</label>
 				<input type='text' name="userid" id="userid" class="form-control"/>

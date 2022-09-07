@@ -18,7 +18,7 @@ $(function(){
 	let role = $("#role").val();
 /* 	alert(role); */
 	if(role == "admin"){
-		location.href="/admin?login=ok";
+		location.href="/admin?login=admin";
 	}else{
 		location.href="/";
 	}

@@ -36,16 +36,21 @@
 	</select>
 	
 	<!-- 전체 유저의 명세 리스트 -->
-	<select id="get_user_total" resultType="com.amor.stella.user.UserVO">
-		select * from amorDB.user
+	<select id="get_user_total" resultType="com.amor.stella.user.UserVO" parameterType="HashMap">
+		select uidx, userid, grade, role, date_format(regdate,'%Y-%m-%d') as regdate from amorDB.user order by regdate desc limit ${startnum }, ${endnum }
 	</select>
 	<!-- 이달의 가입자수 카운트 -->
 	<select id="count_user_month" resultType="int">
 		select count(*) as month_cnt from amorDB.user where date_format(regdate,'%Y-%m') = date_format(now(),'%Y-%m') order by regdate desc
 	</select>
 		<!-- 이달의 가입자 명세 리스트 -->
-	<select id="get_user_month" resultType="com.amor.stella.user.UserVO">
-		select * from amorDB.user where date_format(regdate,'%Y-%m') = date_format(now(),'%Y-%m') order by regdate desc
+	<select id="get_user_month" resultType="com.amor.stella.user.UserVO"  parameterType="HashMap">
+		select uidx, userid, grade, role, date_format(regdate,'%Y-%m-%d') as regdate from amorDB.user where date_format(regdate,'%Y-%m') = date_format(now(),'%Y-%m') order by regdate desc limit ${startnum }, ${endnum }  
 	</select>
 	
+	
+	<!-- 회원탈퇴 처리 -->
+	<delete id="delete_user" parameterType="com.amor.stella.user.UserVO">
+		delete from amorDB.user where uidx = #{uidx }
+	</delete>
 </mapper>
