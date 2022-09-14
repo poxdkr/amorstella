@@ -90,4 +90,30 @@ public class ajaxController {
 	public int count_brd_day() {
 		return boardMapper.count_brd_day();
 	}
+	
+	
+	@RequestMapping("/open_brd_dash")
+	@ResponseBody
+	public ArrayList<BoardVO> open_brd_dash(HttpServletRequest req){
+		HashMap<String, String> boardMap= new HashMap<String,String>();
+		boardMap.put("startnum", req.getParameter("startnum"));
+		boardMap.put("endnum", req.getParameter("endnum"));
+		
+		ArrayList<BoardVO> blist = boardMapper.get_brd_total(boardMap);
+		//System.out.println(blist);
+		return blist;
+	}
+	
+	@RequestMapping("/open_brd_dash_day")
+	@ResponseBody
+	public ArrayList<BoardVO> open_brd_dash_day(HttpServletRequest req){
+		HashMap<String, String> boardMap= new HashMap<String,String>();
+		boardMap.put("startnum", req.getParameter("startnum"));
+		boardMap.put("endnum", req.getParameter("endnum"));
+		
+		ArrayList<BoardVO> blist = boardMapper.get_brd_day(boardMap);
+		//System.out.println(blist);
+		return blist;
+	}
+	
 }

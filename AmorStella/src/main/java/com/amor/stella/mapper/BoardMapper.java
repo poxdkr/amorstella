@@ -6,7 +6,6 @@ import java.util.HashMap;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.amor.stella.board.BoardVO;
-import com.amor.stella.user.UserVO;
 
 @Mapper
 public interface BoardMapper {
@@ -20,13 +19,13 @@ public interface BoardMapper {
 	public int count_brd_total();
 	
 	// 전체 문의의 명세 리스트
-	public ArrayList<UserVO> get_brd_total(HashMap<String, String> brdMap);
+	public ArrayList<BoardVO> get_brd_total(HashMap<String, String> brdMap);
 
 	//오늘의 문의글 수 카운트
 	public int count_brd_day();
 		
 	//오늘의 문의글 명세 리스트
-	public ArrayList<UserVO> get_brd_day(HashMap<String, String> brdMap);
+	public ArrayList<BoardVO> get_brd_day(HashMap<String, String> brdMap);
 
 	//문의글 삭제
 	public void delete_brd(int bidx);

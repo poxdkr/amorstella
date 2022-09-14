@@ -44,15 +44,15 @@
 	</select>
 	
 	<select id="get_brd_total" resultType="com.amor.stella.board.BoardVO" parameterType="HashMap">
-		select * from amorDB.board order by regdate desc limit ${startnum }, ${endnum }
+		select bidx, btitle, username,date_format(regdate, '%Y-%m-%d') as regdate, sch_name from amorDB.board order by regdate desc limit ${startnum }, ${endnum }
 	</select>
 	
 	<select id="count_brd_day" resultType="int">
-		select count(*) as day_cnt from amorDB.user where date_format(regdate,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d') order by regdate desc
+		select count(*) as day_cnt from amorDB.board where date_format(regdate,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d') order by regdate desc
 	</select>
 	
 	<select id="get_brd_day" resultType="com.amor.stella.board.BoardVO" parameterType="HashMap">
-		select * from amorDB.board where date_format(regdate,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d') order by regdate desc limit ${startnum }, ${endnum }
+		select bidx, btitle, username, date_format(regdate, '%Y-%m-%d') as regdate, sch_name from amorDB.board where date_format(regdate,'%Y-%m-%d') = date_format(now(),'%Y-%m-%d') order by regdate desc limit ${startnum }, ${endnum }
 	</select>
 	
 		

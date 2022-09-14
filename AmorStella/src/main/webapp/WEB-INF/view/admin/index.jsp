@@ -15,7 +15,7 @@
 function page_function(page,total){
 	currentPage = page;
 	total = total;
-	pagePerContent = 10;
+	pagePerContent = 5;
 	blockPerPage = 5;
 	totalPage = Math.ceil(total/pagePerContent);
 	currentBlock = Math.ceil(currentPage / blockPerPage);
@@ -33,9 +33,14 @@ function page_function(page,total){
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //user_dash_detail 창닫기
-function close_user_dash(){
+function close_dash(type){
+		if(type == "user"){
 			$("#user_dash_detail").html("");
 			$("#user_dash_detail").css("display","none");
+		}else if(type == "brd"){
+			$("#brd_dash_detail").html("");
+			$("#brd_dash_detail").css("display","none");
+		}
 		};
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -141,7 +146,7 @@ function open_user_dash(type,page){
 				
 
 				html += "<div class=\"p-2 col-12 text-center\">";
-				html += "<button type=\"button\" class=\"btn btn-lg btn-secondary rounded font-weight-bold\" style=\"font-size:12px;\" onclick='javascript:close_user_dash()'><i class=\"ri-logout-box-r-line me-2\"></i>창닫기</button>";
+				html += "<button type=\"button\" class=\"btn btn-lg btn-secondary rounded font-weight-bold\" style=\"font-size:12px;\" onclick='javascript:close_dash(\"user\")'><i class=\"ri-logout-box-r-line me-2\"></i>창닫기</button>";
 				html += "</div>";
 				
 				$("#user_dash_detail").html(html);
@@ -154,7 +159,7 @@ function open_user_dash(type,page){
 		$("#user_dash_detail").css("display","block");
 		
 		var page = page;
-		var total = parseInt($("#total_user").html());
+		var total = parseInt($("#month_user").html());
 
 		//page getter_setter
 		page_function(page,total);
@@ -188,8 +193,7 @@ function open_user_dash(type,page){
 				html += "<button type=\"button\" class=\"btn btn-lg btn-danger rounded font-weight-bold\" style=\"font-size:12px;\" id=\"user_delete_btn\" onclick='leave_member()'><i class=\"ri-delete-bin-line me-2\"></i>탈퇴처리</button>";
 				html += "</div>";
 				
-				
-					// pagination
+				// pagination
 				html += "<nav aria-label=\"...\" class=\"col-12 text-center\">";
 				html += "<ul class=\"pagination justify-content-center\">";
 				if(currentPage <= 1){
@@ -228,7 +232,7 @@ function open_user_dash(type,page){
 				
 
 				html += "<div class=\"p-2 col-12 text-center\">";
-				html += "<button type=\"button\" class=\"btn btn-lg btn-secondary rounded font-weight-bold\" style=\"font-size:12px;\" onclick='javascript:close_user_dash()'><i class=\"ri-logout-box-r-line me-2\"></i>창닫기</button>";
+				html += "<button type=\"button\" class=\"btn btn-lg btn-secondary rounded font-weight-bold\" style=\"font-size:12px;\" onclick='javascript:close_dash(\"user\")'><i class=\"ri-logout-box-r-line me-2\"></i>창닫기</button>";
 				html += "</div>";
 				
 				$("#user_dash_detail").html(html);
@@ -238,7 +242,179 @@ function open_user_dash(type,page){
 			}
 		});
 	}
-};	 
+};
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//brd_dash 제작 function//	
+function open_brd_dash(type,page){
+	if(type == "total"){
+		$("#brd_dash_detail").css("display","block");
+		
+		var page = page;
+		var total = parseInt($("#total_board").html());
+		
+		//page getter_setter
+		page_function(page,total);
+		
+		//page 숫자에 맞는 내용 불러오기
+		$.ajax({
+			url : "/open_brd_dash",
+			data : "startnum="+startnum+"&endnum="+endnum,
+			dataType : "json",
+			contentType : "application/json",
+			success : function(data){
+				html = "";
+				html += "<div class='col-12' style='min-height:350px;'>";
+				html += "<table class=\"table small text-center text-muted\">";
+				html += "<tr class=\"bg-light\">";
+				html += "<td>No.</td><td>문의제목</td><td>문의일</td>";
+				html += "</tr>";
+				
+				$.each(data,function(index,item){
+					html += "<tr>";
+					html += "<td>"+this.bidx+"</td>";
+					html += "<td>"+this.btitle+"</td>";
+					html += "<td>"+this.regdate+"</td>";
+					html += "</tr>";
+				});
+				
+				html += "</table>";
+				html += "</div>";
+				html += "<hr>";
+				
+				// pagination
+				html += "<nav aria-label=\"...\" class=\"col-12 text-center\">";
+				html += "<ul class=\"pagination justify-content-center\">";
+				if(currentPage <= 1){
+					html += "<li class=\"page-item disabled\">";	
+					html += "<a class=\"page-link\">&lt;&lt;</a>";
+				}else{
+					html += "<li class=\"page-item\">";
+					html += "<a class=\"page-link\" href=\"javascript:open_brd_dash('"+type+"','"+(parseInt(currentPage)-1)+"')\">&lt;&lt;</a>";
+				}
+				
+				html += "</li>";
+				
+				for(var i = startPage; i<=endPage; i++){
+					if(i == currentPage){
+						html += "<li class=\"page-item active\" aria-current=\"page\">";
+						html += "<a class=\"page-link\">"+i+"</a>";
+					}else{
+						html += "<li class=\"page-item\" aria-current=\"page\">";
+						html += "<a class=\"page-link\" href=\"javascript:open_brd_dash('"+type+"','"+i+"')\">"+i+"</a>";
+					}
+					html += "</li>";
+				}
+				
+				if(currentPage >= totalPage){
+					html += "<li class=\"page-item disabled\">";
+					html += "<a class=\"page-link\">&gt;&gt;</a>";
+				}else{
+					html += "<li class=\"page-item\">";
+					html += "<a class=\"page-link\" href=\"javascript:open_brd_dash('"+type+"','"+(parseInt(currentPage)+1)+"')\">&gt;&gt;</a>";
+				}
+				html += "</li>";
+				html += "</ul>";
+				html += "</nav>";
+				//pagination
+				
+				html += "<div class=\"p-2 col-12 text-center\">";
+				html += "<button type=\"button\" class=\"btn btn-lg btn-secondary rounded font-weight-bold\" style=\"font-size:12px;\" onclick='javascript:close_dash(\"brd\")'><i class=\"ri-logout-box-r-line me-2\"></i>창닫기</button>";
+				html += "</div>";
+				
+				$("#brd_dash_detail").html(html);
+				 
+			},error : function(data){
+				console.log(data);
+			}
+		});
+	}else if(type == "day"){
+		$("#brd_dash_detail").css("display","block");
+		
+		var page = page;
+		var total = parseInt($("#today_board").html());
+		
+		//page getter_setter
+		page_function(page,total);
+		
+		//page 숫자에 맞는 내용 불러오기
+		$.ajax({
+			url : "/open_brd_dash_day",
+			data : "startnum="+startnum+"&endnum="+endnum,
+			dataType : "json",
+			contentType : "application/json",
+			success : function(data){
+				html = "";
+				html += "<div class='col-12' style='min-height:350px;'>";
+				html += "<table class=\"table small text-center text-muted\">";
+				html += "<tr class=\"bg-light\">";
+				html += "<td>No.</td><td>문의제목</td><td>문의일</td>";
+				html += "</tr>";
+				
+				$.each(data,function(index,item){
+					html += "<tr>";
+					html += "<td>"+this.bidx+"</td>";
+					html += "<td>"+this.btitle+"</td>";
+					html += "<td>"+this.regdate+"</td>";
+					html += "</tr>";
+				});
+				
+				html += "</table>";
+				html += "</div>";
+				html += "<hr>";
+				
+				// pagination
+				html += "<nav aria-label=\"...\" class=\"col-12 text-center\">";
+				html += "<ul class=\"pagination justify-content-center\">";
+				if(currentPage <= 1){
+					html += "<li class=\"page-item disabled\">";	
+					html += "<a class=\"page-link\">&lt;&lt;</a>";
+				}else{
+					html += "<li class=\"page-item\">";
+					html += "<a class=\"page-link\" href=\"javascript:open_brd_dash('"+type+"','"+(parseInt(currentPage)-1)+"')\">&lt;&lt;</a>";
+				}
+				
+				html += "</li>";
+				
+				for(var i = startPage; i<=endPage; i++){
+					if(i == currentPage){
+						html += "<li class=\"page-item active\" aria-current=\"page\">";
+						html += "<a class=\"page-link\">"+i+"</a>";
+					}else{
+						html += "<li class=\"page-item\" aria-current=\"page\">";
+						html += "<a class=\"page-link\" href=\"javascript:open_brd_dash('"+type+"','"+i+"')\">"+i+"</a>";
+					}
+					html += "</li>";
+				}
+				
+				if(currentPage >= totalPage){
+					html += "<li class=\"page-item disabled\">";
+					html += "<a class=\"page-link\">&gt;&gt;</a>";
+				}else{
+					html += "<li class=\"page-item\">";
+					html += "<a class=\"page-link\" href=\"javascript:open_brd_dash('"+type+"','"+(parseInt(currentPage)+1)+"')\">&gt;&gt;</a>";
+				}
+				html += "</li>";
+				html += "</ul>";
+				html += "</nav>";
+				//pagination
+				
+				html += "<div class=\"p-2 col-12 text-center\">";
+				html += "<button type=\"button\" class=\"btn btn-lg btn-secondary rounded font-weight-bold\" style=\"font-size:12px;\" onclick='javascript:close_dash(\"brd\")'><i class=\"ri-logout-box-r-line me-2\"></i>창닫기</button>";
+				html += "</div>";
+				
+				$("#brd_dash_detail").html(html);
+				
+			},error : function(data){
+				console.log(data);
+			}
+		});
+	}
+};
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//open_brd_dash 종료
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //onload
 	$(function(){
@@ -318,13 +494,13 @@ function open_user_dash(type,page){
               </div>
             </div>
             <!-- icon-box -->
-            <div class="icon-box col-12 ps-1 pe-1" id="user_dash_detail"  data-aos="fade-up" data-aos-delay="100" style='display:none;'>
-            	
+            <div class="icon-box col-12 ps-1 pe-1 detail_box" id="user_dash_detail"  data-aos="fade-up" data-aos-delay="100" style='display:none;'>
+            	<!-- user_dash_detail Container -->
             </div>
             <!-- icon-box -->
           </div>
 
-          <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+          <div class="col-xl-3 col-md-6 align-items-stretch mt-4 mt-md-0">
             <div class="icon-box col-12  d-flex  ps-1 pe-1">
               <div class="col-4 text-center">
 	              <div class="icon"><i class="ri-question-line"></i></div>
@@ -337,6 +513,11 @@ function open_user_dash(type,page){
               		</div>
               </div>
             </div>
+            <!-- icon-box -->
+            <div class="icon-box col-12 ps-1 pe-1 detail_box" id="brd_dash_detail"  data-aos="fade-up" data-aos-delay="100" style='display:none;'>
+            	<!-- Board_dash_detail Container -->
+            </div>
+            <!-- icon-box -->
           </div>
 		 
           <div class="col-xl-3 col-md-6 d-flex align-items-stretch mt-4 mt-xl-0">
